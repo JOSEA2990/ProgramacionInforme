@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Sube tu archivo MS Project (.xml)</h2>
+    <input type="file" id="mppFile" accept=".xml"><br>
+    <button onclick="procesarArchivo()">Procesar</button>
+
+    <div id="informe"></div>
+    <div class="progress-bar">
+    <div id="barraProgreso" class="progress-bar-fill" style="width: 0%">0%</div>
+    </div>
+
+    <div class="chart-container">
+    <canvas id="graficoBarras"></canvas>
+    <div class="tabla-criticas">
+        <h4>Tareas Críticas</h4>
+        <div id="tablaCriticas"></div>
+    </div>
+    </div>
+
+    <div class="tabla-desfase">
+    <h4>Desfase del Proyecto (en días)</h4>
+    <div id="tablaDesfase"></div>
+    </div>
+
+    <script src="Javas.js"></script>
+
+</body>
+</html>
