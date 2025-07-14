@@ -27,8 +27,11 @@
         let adelantadas = 0;
         let planificadoPorFecha = 0;
         let cantidadHitos = 0;
+        
         let tareasCriticas = [];
-        let desfases = [];
+        
+        let finProyectoReal = null;
+        let finProyectoPlan = null;
 
         const hoy = new Date();
 
@@ -70,6 +73,8 @@
 
         const promedio = (completadoTotal / cantidadTareas).toFixed(2);
         const planificado = (planificadoPorFecha / (cantidadTareas * 100) * 100).toFixed(2);
+        const diasDiferencia = finProyectoReal && finProyectoPlan ? Math.ceil((finProyectoReal - finProyectoPlan) / (1000 * 60 * 60 * 24)) : 0;
+        const estado = diasDiferencia > 0 ? '🔺 Atrasado' : diasDiferencia < 0 ? '✅ Adelantado' : '🟡 Sin variación';
 
         document.getElementById("informe").innerHTML = `
           <h3>Resumen del proyecto</h3>
@@ -116,20 +121,26 @@
         // Tabla de tareas críticas
         let tablaHtml = '<table><tr><th>Nombre</th><th>Inicio</th><th>Fin</th><th>% Completado</th></tr>';
         tareasCriticas.forEach(t => {
-          tablaHtml += `<tr><td>${t.nombre}</td><td>${t.inicio}</td><td>${t.fin}</td><td>${t.porcentaje}%</td></tr>`;
+        tablaHtml += `<tr><td>${t.nombre}</td><td>${t.inicio}</td><td>${t.fin}</td><td>${t.porcentaje}%</td></tr>`;
         });
         tablaHtml += '</table>';
         document.getElementById("tablaCriticas").innerHTML = tablaHtml;
 
         // Tabla de desfase
-        let desfaseHtml = '<table><tr><th>Nombre</th><th>Fin</th><th>Días de Desfase</th></tr>';
-        desfases.forEach(d => {
-          const clase = d.desfase > 10 ? 'atraso-grave' : '';
-          desfaseHtml += `<tr class="${clase}"><td>${d.nombre}</td><td>${d.fin}</td><td>${d.desfase}</td></tr>`;
-        });
-        desfaseHtml += '</table>';
-        document.getElementById("tablaDesfase").innerHTML = desfaseHtml;
-      };
+        let tablaHtml2 = '<table><tr><th>Nombre</th><th>Inicio</th><th>Fin</th><th>% Completado</th></tr>';
+        tablaHtml2 += '</table>';
+        document.getElementById("tablaDesfase").innerHTML = tablaHtml2;
+        if (!finProyectoReal || fin > finProyectoReal) {
+        finProyectoReal = fin;
+        }
+        if (finPlanificado) {
+        const fechaPlan = new Date(finPlanificado);
+        if (!finProyectoPlan || fechaPlan > finProyectoPlan) {
+        finProyectoPlan = fechaPlan;
+        }
+        }
 
-      reader.readAsText(archivo);
+        };
+
+        reader.readAsText(archivo);
     }
