@@ -59,13 +59,13 @@
       margin-bottom: 1rem;
 
     }
-    .tabla-criticas table, .tablas-desfase table {
+    .tabla-criticas table, .tabla-desfase table {
       width: 100%;
       border-collapse: collapse;
     }
     .tabla-criticas th, .tabla-criticas td, .tabla-desfase th, .tabla-desfase td {
       border: 1px solid #ccc;
-      padding: 4px;
+      padding: 3px;
       text-align: left;
     }
     .tabla-criticas th, .tabla-desfase th {
