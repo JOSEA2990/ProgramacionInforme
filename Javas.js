@@ -34,6 +34,7 @@
         
         let finProyectoPlan = null;
         let finProyectoReal = null;
+        let tipoPorc = 0;
 
         const hoy = new Date();
 
@@ -42,6 +43,18 @@
           const esHito = tareas[i].getElementsByTagName("Milestone")[0]?.textContent === "1";
           if (esResumen) continue;
 
+          const select = document.getElementById("tipoPorcentaje");
+          console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
+          if(select === "Porcentaje Trabajo") {tipoPorc = 1};
+          
+
+          if(tipoPorc === 0){
+            const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
+            console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
+          }else{
+            const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentWorkComplete")[0]?.textContent || 0);
+            console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
+          }
           const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
           const inicio = new Date(tareas[i].getElementsByTagName("Start")[0]?.textContent);
           const baselineStart = new Date(tareas[i].getElementsByTagName("Baseline")[0]?.getElementsByTagName("Start")[0]?.textContent);

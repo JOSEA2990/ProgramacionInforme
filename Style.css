@@ -6,10 +6,18 @@
     h2 {
       color: #008080;
     }
-    input, button {
+    input, label {
       margin: 1rem 0;
       padding: 0.5rem;
+      font-size: 15px;
     }
+    button{
+      margin: 1rem;
+      margin-left: 0.5rem;
+      padding: 0.5rem;
+    }
+
+
     #informe {
       background: white;
       padding: 1rem;

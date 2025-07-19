@@ -10,9 +10,20 @@
 <body>
     <h2>Sube tu archivo MS Project (.xml)</h2>
     <input type="file" id="mppFile" accept=".xml"><br>
-    <button onclick="procesarArchivo()">Procesar</button>
 
+    <div>
+    <label for="tipoPorcentaje">Selecciona tipo de Avance:</label>
+    <select id="tipoPorcentaje">
+    <option value="PercentComplete">Porcentaje Duración</option>
+    <option value="PercentWorkComplete">Porcentaje Trabajo</option>
+    </select>
+    </div> 
+
+    <div>
+    <button onclick="procesarArchivo()">Procesar</button>
+    </div>
     <div id="informe"></div>
+
     <div class="progress-bar">
     <div id="barraProgreso" class="progress-bar-fill" style="width: 0%">0%</div>
     </div>
