@@ -27,7 +27,7 @@
       font-size: 1rem;
     }
     #graficoBarras {
-      width: 800px !important;
+      width: 100vw !important;
       height: 400px !important;
     }
 
@@ -38,6 +38,7 @@
       overflow: hidden;
       margin-top: 1rem;
     }
+
     .progress-bar-fill {
       height: 30px;
       text-align: center;

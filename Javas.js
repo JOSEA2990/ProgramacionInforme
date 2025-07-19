@@ -127,7 +127,7 @@
         document.getElementById("tablaCriticas").innerHTML = tablaHtml;
 
         // Tabla de desfase
-        let tablaHtml2 = '<table><tr><th>Nombre</th><th>Inicio</th><th>Fin</th><th>% Completado</th></tr>';
+        let tablaHtml2 = '<table><tr><th>Fin Planificado</th><th>Fin Real</th><th>Dessfase</th><th>Estado</th></tr>';
         tablaHtml2 += '</table>';
         document.getElementById("tablaDesfase").innerHTML = tablaHtml2;
         if (!finProyectoReal || fin > finProyectoReal) {
