@@ -6,8 +6,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="Style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+
     <h2>Sube tu archivo MS Project (.xml)</h2>
     <input type="file" id="mppFile" accept=".xml"><br>
 
@@ -22,7 +24,9 @@
     <div>
     <button onclick="procesarArchivo()">Procesar</button>
     </div>
-    
+
+    <div id="contenidoInforme">
+
     <div id="informe"></div>
 
     <div class="progress-bar">
@@ -32,8 +36,6 @@
     <div class="chart-container">
     <canvas id="graficoBarras"></canvas>
     </div>
-
-
 
     <script src="Javas.js"></script>
 
@@ -52,5 +54,6 @@
         </div>
     </div>
 
+    </div>
 </body>
 </html>
