@@ -31,9 +31,12 @@
         let Porc = 0;
 
         let tareasCriticas = [];
+        let porcentajeN = [];
+        let porcentaje=0;
         
         let finProyectoPlan = null;
         let finProyectoReal = null;
+        let PorcentEsperado = null;
         let tipoPorc = 0;
 
         const hoy = new Date();
@@ -44,18 +47,17 @@
           if (esResumen) continue;
 
           const select = document.getElementById("tipoPorcentaje");
-          console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
-          if(select === "Porcentaje Trabajo") {tipoPorc = 1};
-          
 
-          if(tipoPorc === 0){
-            const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
-            console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
-          }else{
-            const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentWorkComplete")[0]?.textContent || 0);
-            console.log(select.value); // Muestra el valor seleccionado (por defecto el primero)
+          if(select.value === "PercentWorkComplete") {
+          tipoPorc = 1;
+          const porcentajeN = parseFloat(tareas[i].getElementsByTagName("PercentWorkComplete")[0]?.textContent || 0);
+                    porcentaje = new Number(porcentajeN);
+          } else {
+          tipoPorc = 0; 
+          const porcentajeN = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
+                    porcentaje = new Number(porcentajeN);
           }
-          const porcentaje = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
+
           const inicio = new Date(tareas[i].getElementsByTagName("Start")[0]?.textContent);
           const baselineStart = new Date(tareas[i].getElementsByTagName("Baseline")[0]?.getElementsByTagName("Start")[0]?.textContent);
           const fin = new Date(tareas[i].getElementsByTagName("Finish")[0]?.textContent);
@@ -67,16 +69,14 @@
           cantidadHitos++;
           continue; // Si no quieres contar los hitos en las estadísticas generales
           }
-
           completadoTotal += porcentaje;
           cantidadTareas++;
 
           if (hoy > inicio) planificadoPorFecha += 100;
-
           if (porcentaje < 100 && fin > baselineFinish) atrasadas++;
           if (porcentaje > 0 && inicio < baselineStart) adelantadas++;
           // Contar tareas completadas
-          if (porcentaje === 100) {Terminadas++;}
+          if (porcentaje == 100) {Terminadas++;}
 
           if (esCritica) {
             tareasCriticas.push({ nombre, inicio: inicio.toLocaleDateString(), fin: fin.toLocaleDateString(), porcentaje });
@@ -84,26 +84,43 @@
 
           for (let i = 0; i < tareas.length; i++) {
           const id = tareas[i].getElementsByTagName("ID")[0]?.textContent;
-          if (id === "0") {
+          if (id === "1") {
           // Fin real del proyecto (Finish)
           const finRealTexto = tareas[i].getElementsByTagName("Finish")[0]?.textContent;
           finProyectoReal = new Date(finRealTexto);
+          if(tipoPorc === 1) {
+          const porcentajeR = parseFloat(tareas[i].getElementsByTagName("PercentWorkComplete")[0]?.textContent || 0);
+                    Porc = new Number(porcentajeR);
+          } else {
           const porcentajeR = parseFloat(tareas[i].getElementsByTagName("PercentComplete")[0]?.textContent || 0);
-          Porc = new Number(porcentajeR).toFixed(2);
-
+                    Porc = new Number(porcentajeR);
+          }
           // Fin planificado desde Baseline
           const baseline = tareas[i].getElementsByTagName("Baseline")[0];
           const finPlanTexto = baseline.getElementsByTagName("Finish")[0]?.textContent;
           finProyectoPlan = new Date(finPlanTexto);
+          const Extended = tareas[i].getElementsByTagName("ExtendedAttribute")[0];
+          const PorEsperado = Extended.getElementsByTagName("Value")[0]?.textContent;
+          PorcentEsperado = new String(PorEsperado);
           break; // Ya encontramos el ID 1
           }
           }
-
 
           if (porcentaje < 100 && hoy > fin) {
             const diasDesfase = Math.ceil((hoy - fin) / (1000 * 60 * 60 * 24));
             desfases.push({ nombre, fin: fin.toLocaleDateString(), desfase: diasDesfase });
           }
+        }
+
+        const statusDateElement = xml.getElementsByTagName("StatusDate")[0];
+        let FechaC; // Esta es la variable para tu Fecha de Corte
+
+        if (statusDateElement) {
+            const statusDateText = statusDateElement.textContent;
+            FechaC = new Date(statusDateText); // ISO 8601, debería funcionar
+        } else {
+            console.warn("Elemento <StatusDate> no encontrado en el XML. Usando fecha actual.");
+            FechaC = new Date(NaN); // O maneja la ausencia de otra manera
         }
 
         const promedio = (completadoTotal / cantidadTareas).toFixed(2);
@@ -116,7 +133,8 @@
           <p><strong>Tareas totales:</strong> ${cantidadTareas}</p>
           <p><strong>Hitos:</strong> ${cantidadHitos}</p>
           <p><strong>Avance real:</strong> ${Porc}%</p>
-          <p><strong>Avance esperado (según fecha Corte):</strong> ${planificado}%</p>
+          <p><strong>Fecha Corte:</strong> ${FechaC}</p>
+          <p><strong>Avance esperado (según fecha Corte):</strong> ${PorcentEsperado}</p>
           <p><strong>Tareas atrasadas:</strong> ${atrasadas}</p>
           <p><strong>Tareas adelantadas:</strong> ${adelantadas}</p>
           <p><strong>Tareas Terminadas:</strong> ${Terminadas}</p>
@@ -163,7 +181,7 @@
         document.getElementById("tablaCriticas").innerHTML = tablaHtml;
 
         // Tabla de desfase
-        let tablaHtml2 = '<table><tr><th>Fin Planificado</th><th>Fin Real</th><th>Desfase</th><th>Estado</th></tr>';
+        let tablaHtml2 = '<table><tr><th>Fin Planificado</th><th>Fin Real</th><th>Desfase(dias)</th><th>Estado</th></tr>';
         tablaHtml2 += `<tr>
         <td>${finProyectoPlan ? finProyectoPlan.toLocaleDateString() : 'N/D'}</td>
         <td>${finProyectoReal ? finProyectoReal.toLocaleDateString() : 'N/D'}</td>
