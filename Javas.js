@@ -130,10 +130,10 @@
 
         document.getElementById("informe").innerHTML = `
           <h3>Resumen del proyecto</h3>
+          <p><strong>Fecha Corte:</strong> ${FechaC}</p>
           <p><strong>Tareas totales:</strong> ${cantidadTareas}</p>
           <p><strong>Hitos:</strong> ${cantidadHitos}</p>
           <p><strong>Avance real:</strong> ${Porc}%</p>
-          <p><strong>Fecha Corte:</strong> ${FechaC}</p>
           <p><strong>Avance esperado (según fecha Corte):</strong> ${PorcentEsperado}</p>
           <p><strong>Tareas atrasadas:</strong> ${atrasadas}</p>
           <p><strong>Tareas adelantadas:</strong> ${adelantadas}</p>

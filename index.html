@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Plantilla de Informe</title>
     <link rel="stylesheet" href="Style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-    <h2>Sube tu archivo MS Project (.xml)</h2>
+    <div class ="Tit">
+    <h2>Sube tu archivo MS Project (.xml)</h2>   
+    </div>
+
     <input type="file" id="mppFile" accept=".xml"><br>
 
     <div>
@@ -29,6 +32,7 @@
 
     <div id="informe"></div>
 
+    <div><h4>Progreso Real</h4></div>
     <div class="progress-bar">
     <div id="barraProgreso" class="progress-bar-fill" style="width: 0%">0%</div>
     </div>
@@ -53,7 +57,9 @@
             </div>
         </div>
     </div>
-
     </div>
+<footer class="text-center text-sm text-white-500 py-6">
+    &copy; 2025 J.A.M.G. vers.1.1.0</Ver>
+  </footer>
 </body>
 </html>
